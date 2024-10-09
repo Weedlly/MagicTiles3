@@ -7,6 +7,7 @@ namespace GamePlay.ScoreSystem
     public struct OnTapTilePayload
     {
         public GameObject Tile;
+        public int TileLength;
     }
 
     public enum EScoreType
@@ -21,6 +22,7 @@ namespace GamePlay.ScoreSystem
     public class CalculateScoreSystem
     {
         [SerializeField] private float _overlapPercentsForGreatScore = 10f;
+        [SerializeField] private float _longTileScoreFactor = 1f;
         public EScoreType GetScoreType(RectTransform rectTransformTile, RectTransform rectTransformScoreLine)
         {
             Rect rect1 = GetWorldRect(rectTransformTile);
@@ -30,6 +32,10 @@ namespace GamePlay.ScoreSystem
                 return EScoreType.Cool;
             float overlapPercents = GetOverlapPercents(rect1, rect2);
             return IsGreatScore(overlapPercents) ? EScoreType.Great : EScoreType.Perfect;
+        }
+        public int GetScoreByTileLength(int tileLength)
+        {
+            return (int)(tileLength * _longTileScoreFactor);
         }
         private bool IsImagesOverlapping(Rect rect1, Rect rect2)
         {
@@ -78,7 +84,7 @@ namespace GamePlay.ScoreSystem
             RectTransform rectTransformTile = onTapTilePayload.Tile.GetComponent<RectTransform>();
             EScoreType eScoreType = _calculateScoreSystem.GetScoreType(rectTransformTile, _objScoreLineRt);
 
-            _curScore += _scoreDataConfig.GeConfigByKey(eScoreType).ScoreVal;
+            _curScore += _scoreDataConfig.GeConfigByKey(eScoreType).ScoreVal + _calculateScoreSystem.GetScoreByTileLength(onTapTilePayload.TileLength);
 
             if (eScoreType == EScoreType.Cool)
             {

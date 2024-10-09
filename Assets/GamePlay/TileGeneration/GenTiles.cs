@@ -26,16 +26,33 @@ namespace GamePlay.TileGeneration
         {
             if (onDetectBeatPayload.BeatVal < 0.8f)
                 return;
+            
+            int rdTileHolderIdx = Random.Range(0, 3);
+            
+            if (onDetectBeatPayload.BeatVal > 0.96f)
+            {
+                foreach (TileColHolder tileColHolder in _tileColHolders)
+                {
+                    if (!tileColHolder.IsEmptyFallingTile())
+                        continue;
+                
+                    tileColHolder.SpawningLongTile(2);
+                    return;
+                }
+                
+                _tileColHolders[rdTileHolderIdx].SpawningLongTile(2);
+                return;
+            }
             foreach (TileColHolder tileColHolder in _tileColHolders)
             {
                 if (!tileColHolder.IsEmptyFallingTile())
                     continue;
                 
-                tileColHolder.SpawningTile();
+                tileColHolder.SpawningSingleTile();
                 return;
             }
-            int rdTileHolderIdx = Random.Range(0, 3);
-            _tileColHolders[rdTileHolderIdx].SpawningTile();
+            
+            _tileColHolders[rdTileHolderIdx].SpawningSingleTile();
         }
     }
 }

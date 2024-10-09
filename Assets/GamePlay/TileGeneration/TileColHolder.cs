@@ -1,16 +1,12 @@
 using Common.Scripts.Pooler;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace GamePlay.TileGeneration
 {
-    public class TilePooling
-    {
-        
-    }
     public class TileColHolder : MonoBehaviour
     {
         [SerializeField] private PoolingBase _poolingSingleTile;
+        [SerializeField] private PoolingBase _poolingLongTile;
         [SerializeField] private Transform _genTilePos;
         [SerializeField] private Transform _outOfBoardCheckPoint;
         [SerializeField] private float _tileFallingDuration = 0.5f;
@@ -21,13 +17,22 @@ namespace GamePlay.TileGeneration
         {
             _curFallingTile = 0;
             _poolingSingleTile.InitPool();
+            _poolingLongTile.InitPool();
         }
-        public void SpawningTile()
+        public void SpawningSingleTile()
         {
             _curFallingTile++;
             TileBase tile = _poolingSingleTile.GetInstance().GetComponent<TileBase>();
             tile.SetUp(_genTilePos, _outOfBoardCheckPoint, OnTileReturnPool);
             tile.TileFalling(_tileFallingDuration);
+        }
+        public void SpawningLongTile(int longTileLength)
+        {
+            _curFallingTile++;
+            LongTile longTile = _poolingLongTile.GetInstance().GetComponent<LongTile>();
+            longTile.SetUp(_genTilePos, _outOfBoardCheckPoint, OnTileReturnPool);
+            longTile.SetLongTileLength(longTileLength);
+            longTile.TileFalling(_tileFallingDuration);
         }
         private void OnTileReturnPool(GameObject go)
         {

@@ -1,33 +1,28 @@
 using DG.Tweening;
-using GamePlay.ScoreSystem;
-using SuperMaxim.Messaging;
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GamePlay.TileGeneration
 {
-    public abstract class TileBase : MonoBehaviour
+    public abstract class TileBase : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        [SerializeField] protected Image _imgTile;
-        [SerializeField] private Button _btn;
+        [SerializeField] protected CanvasGroup _canvasGroupTile;
 
         protected Transform _genTilePos;
         protected Transform _outOfBoardCheckPoint;
         private Action<GameObject> _onReturnPool;
-        private void Start()
-        {
-            _btn.onClick.AddListener(OnTapTile);
-        }
         public virtual void SetUp(Transform genTilePos, Transform outOfBoardCheckPoint, Action<GameObject> onReturnPool)
         {
             _genTilePos = genTilePos;
-            transform.localPosition = _genTilePos.localPosition;
-
             _outOfBoardCheckPoint = outOfBoardCheckPoint;
+            transform.localPosition = _genTilePos.localPosition;
+            
             _onReturnPool = onReturnPool;
+            
             gameObject.SetActive(true);
-            _imgTile.enabled = true;
+            _canvasGroupTile.alpha = 1f;
         }
         public void TileFalling(float fallingSpeed)
         {
@@ -39,18 +34,13 @@ namespace GamePlay.TileGeneration
                 });
             }
         }
-        protected virtual void OnTapTile()
-        {
-            _imgTile.enabled = false;
-            Messenger.Default.Publish(new OnTapTilePayload
-            {
-                Tile = gameObject,
-            });
-        }
-
         protected virtual bool IsReached()
         {
             return transform.localPosition.y <= _outOfBoardCheckPoint.localPosition.y;
+        }
+        public abstract void OnPointerDown(PointerEventData eventData);
+        public virtual void OnPointerUp(PointerEventData eventData)
+        {
         }
     }
 }
