@@ -5,19 +5,11 @@ namespace Common.Scripts.Pooler
 {
     public class PoolingBase : MonoBehaviour
     {
-        private int _initNumber;
-        private GameObject _parent;
-        private List<GameObject> _poolObjects;
-        private GameObject _prefab;
-        public void InitPoolWithParam(int initNumber, GameObject prefab, GameObject parent)
-        {
-            _parent = parent;
-            _initNumber = initNumber;
-            _prefab = prefab;
-            InitPool();
-        }
-
-        private void InitPool()
+        [SerializeField] private int _initNumber;
+        [SerializeField] private GameObject _parent;
+        [SerializeField] private GameObject _prefab;
+        [SerializeField] private List<GameObject> _poolObjects;
+        public void InitPool()
         {
             _poolObjects = new List<GameObject>();
             for (int i = 0; i < _initNumber; i++)
@@ -27,8 +19,7 @@ namespace Common.Scripts.Pooler
         }
         private GameObject InitObjectInstance()
         {
-            GameObject instance = Instantiate(_prefab);
-            instance.transform.SetParent(_parent.transform);
+            GameObject instance = Instantiate(_prefab, _parent.transform, true);
             instance.SetActive(false);
             return instance;
         }
