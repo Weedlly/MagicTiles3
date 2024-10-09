@@ -1,4 +1,6 @@
 using DG.Tweening;
+using GamePlay.ScoreSystem;
+using SuperMaxim.Messaging;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,6 +42,10 @@ namespace GamePlay.TileGeneration
         protected virtual void OnTapTile()
         {
             _imgTile.enabled = false;
+            Messenger.Default.Publish(new OnTapTilePayload
+            {
+                Tile = gameObject,
+            });
         }
             
         protected virtual bool IsReached()
