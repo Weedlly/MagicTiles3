@@ -11,7 +11,7 @@ namespace GamePlay.TileGeneration
     {
         [SerializeField] protected Image _imgTile;
         [SerializeField] private Button _btn;
-        
+
         protected Transform _genTilePos;
         protected Transform _outOfBoardCheckPoint;
         private Action<GameObject> _onReturnPool;
@@ -23,7 +23,7 @@ namespace GamePlay.TileGeneration
         {
             _genTilePos = genTilePos;
             transform.localPosition = _genTilePos.localPosition;
-            
+
             _outOfBoardCheckPoint = outOfBoardCheckPoint;
             _onReturnPool = onReturnPool;
             gameObject.SetActive(true);
@@ -33,7 +33,7 @@ namespace GamePlay.TileGeneration
         {
             if (!IsReached())
             {
-                transform.DOLocalMoveY(_outOfBoardCheckPoint.localPosition.y, fallingSpeed).OnComplete(() =>
+                transform.DOLocalMoveY(_outOfBoardCheckPoint.localPosition.y, fallingSpeed).SetEase(Ease.Linear).OnComplete(() =>
                 {
                     _onReturnPool?.Invoke(gameObject);
                 });
@@ -47,7 +47,7 @@ namespace GamePlay.TileGeneration
                 Tile = gameObject,
             });
         }
-            
+
         protected virtual bool IsReached()
         {
             return transform.localPosition.y <= _outOfBoardCheckPoint.localPosition.y;

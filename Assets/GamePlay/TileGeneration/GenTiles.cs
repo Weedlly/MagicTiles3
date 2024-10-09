@@ -22,7 +22,7 @@ namespace GamePlay.TileGeneration
         {
             Messenger.Default.Unsubscribe<OnDetectBeatPayload>(SpawningTiles);
         }
-        public void SpawningTiles(OnDetectBeatPayload onDetectBeatPayload)
+        private void SpawningTiles(OnDetectBeatPayload onDetectBeatPayload)
         {
             if (onDetectBeatPayload.BeatVal < 0.8f)
                 return;
