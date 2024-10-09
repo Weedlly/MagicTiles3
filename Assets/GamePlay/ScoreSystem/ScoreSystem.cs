@@ -61,8 +61,12 @@ namespace GamePlay.ScoreSystem
     {
         [SerializeField] private RectTransform _objScoreLineRt;
         [SerializeField] private CalculateScoreSystem _calculateScoreSystem;
+        [SerializeField] private ScoreDataConfig _scoreDataConfig;
+
+        private int _curScore;
         private void Start()
         {
+            _curScore = 0;
             Messenger.Default.Subscribe<OnTapTilePayload>(CalScore);
         }
         private void OnDestroy()
@@ -73,13 +77,21 @@ namespace GamePlay.ScoreSystem
         {
             RectTransform rectTransformTile = onTapTilePayload.Tile.GetComponent<RectTransform>();
             EScoreType eScoreType = _calculateScoreSystem.GetScoreType(rectTransformTile, _objScoreLineRt);
+
+            _curScore += _scoreDataConfig.GeConfigByKey(eScoreType).ScoreVal;
+
             if (eScoreType == EScoreType.Cool)
             {
                 NotifyUpdateScoreBarPos(rectTransformTile.position);
             }
+            NotifyUpdateScoreView(eScoreType, _curScore);
+        }
+        private void NotifyUpdateScoreView(EScoreType eScoreType, int curScore)
+        {
             Messenger.Default.Publish(new OnChangeScorePayload
             {
                 EScoreType = eScoreType,
+                CurScore = curScore,
             });
         }
         private void NotifyUpdateScoreBarPos(Vector2 pos)

@@ -897,6 +897,7 @@ MonoBehaviour:
   _objScoreLineRt: {fileID: 996393907}
   _calculateScoreSystem:
     _overlapPercentsForGreatScore: 10
+  _scoreDataConfig: {fileID: 11400000, guid: 806e1a94dde414574a917863f30f482f, type: 2}
 --- !u!1 &950934993
 GameObject:
   m_ObjectHideFlags: 0

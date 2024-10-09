@@ -6,6 +6,7 @@ namespace GamePlay.ScoreSystem
     public struct OnChangeScorePayload
     {
         public EScoreType EScoreType;
+        public int CurScore;
     }
     public class ScoreViewModal : MonoBehaviour
     {
@@ -14,7 +15,6 @@ namespace GamePlay.ScoreSystem
         private int _curScore;
         private void Start()
         {
-            _curScore = 0;
             Messenger.Default.Subscribe<OnChangeScorePayload>(OnChangeScore);
         }
         private void OnDestroy()
@@ -23,7 +23,7 @@ namespace GamePlay.ScoreSystem
         }
         private void OnChangeScore(OnChangeScorePayload payload)
         {
-            _curScore += _scoreDataConfig.GeConfigByKey(payload.EScoreType).ScoreVal;
+            _curScore = payload.CurScore;
             UpdateView();
         }
         private void UpdateView()
