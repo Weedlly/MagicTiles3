@@ -22,13 +22,9 @@ namespace GamePlay.TileGeneration
         public void SpawningTile(int tileLength)
         {
             if (tileLength <= 1)
-            {
                 SpawningSingleTile();
-            }
             else
-            {
                 SpawningLongTile(tileLength);
-            }
         }
         private void SpawningSingleTile()
         {
