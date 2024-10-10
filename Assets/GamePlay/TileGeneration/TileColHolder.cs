@@ -19,14 +19,25 @@ namespace GamePlay.TileGeneration
             _poolingSingleTile.InitPool();
             _poolingLongTile.InitPool();
         }
-        public void SpawningSingleTile()
+        public void SpawningTile(int tileLength)
+        {
+            if (tileLength <= 1)
+            {
+                SpawningSingleTile();
+            }
+            else
+            {
+                SpawningLongTile(tileLength);
+            }
+        }
+        private void SpawningSingleTile()
         {
             _curFallingTile++;
             TileBase tile = _poolingSingleTile.GetInstance().GetComponent<TileBase>();
             tile.SetUp(_genTilePos, _outOfBoardCheckPoint, OnTileReturnPool);
             tile.TileFalling(_tileFallingDuration);
         }
-        public void SpawningLongTile(int longTileLength)
+        private void SpawningLongTile(int longTileLength)
         {
             _curFallingTile++;
             LongTile longTile = _poolingLongTile.GetInstance().GetComponent<LongTile>();

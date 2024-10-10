@@ -2,7 +2,6 @@ using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace GamePlay.TileGeneration
 {
@@ -18,9 +17,9 @@ namespace GamePlay.TileGeneration
             _genTilePos = genTilePos;
             _outOfBoardCheckPoint = outOfBoardCheckPoint;
             transform.localPosition = _genTilePos.localPosition;
-            
+
             _onReturnPool = onReturnPool;
-            
+
             gameObject.SetActive(true);
             _canvasGroupTile.alpha = 1f;
         }
@@ -30,9 +29,14 @@ namespace GamePlay.TileGeneration
             {
                 transform.DOLocalMoveY(_outOfBoardCheckPoint.localPosition.y, fallingSpeed).SetEase(Ease.Linear).OnComplete(() =>
                 {
+                    TileReached();
                     _onReturnPool?.Invoke(gameObject);
                 });
             }
+        }
+        protected virtual void TileReached()
+        {
+
         }
         protected virtual bool IsReached()
         {
