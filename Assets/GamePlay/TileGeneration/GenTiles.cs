@@ -19,7 +19,7 @@ namespace GamePlay.TileGeneration
         }
         private void SpawningTiles(OnDetectBeatPayload onDetectBeatPayload)
         {
-            Debug.Log(onDetectBeatPayload.Note.Name + "  " + onDetectBeatPayload.Note.Duration);
+            // Debug.Log(onDetectBeatPayload.Note.Name + "  " + onDetectBeatPayload.Note.Duration);
 
             int tileLength = (int)(onDetectBeatPayload.Note.Duration / _minTileDurationFactor) / 2;
             int rdTileHolderIdx = Random.Range(0, 3);

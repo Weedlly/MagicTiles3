@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GamePlay
+namespace GamePlay.TileGeneration
 {
     public class Header
     {
@@ -145,7 +145,7 @@ namespace GamePlay
                     Note preNote = new Note();
                     preNote = index == 0 ? track.Notes[0] : track.Notes[index - 1];
                     Note curNote = track.Notes[index];
-                    Debug.Log("wait for " + (float)curNote.Time);
+                    // Debug.Log("wait for " + (float)curNote.Time);
                     yield return new WaitForSeconds((float)(curNote.Time - preNote.Time));
                     Messenger.Default.Publish(new OnDetectBeatPayload
                     {
