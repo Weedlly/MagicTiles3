@@ -11,8 +11,8 @@ namespace GamePlay.ScoreSystem
     public class ScoreViewModal : MonoBehaviour
     {
         [SerializeField] private ScoreView _scoreView;
-        [SerializeField] private ScoreDataConfig _scoreDataConfig;
         private int _curScore;
+        private EScoreType _eScoreType;
         private void Start()
         {
             Messenger.Default.Subscribe<OnChangeScorePayload>(OnChangeScore);
@@ -24,11 +24,12 @@ namespace GamePlay.ScoreSystem
         private void OnChangeScore(OnChangeScorePayload payload)
         {
             _curScore = payload.CurScore;
+            _eScoreType = payload.EScoreType;
             UpdateView();
         }
         private void UpdateView()
         {
-            _scoreView.SetUp(_curScore);
+            _scoreView.SetUp(_curScore,_eScoreType);
         }
     }
 }
