@@ -33,7 +33,7 @@ namespace GamePlay.TileGeneration
         }
         public override void OnPointerUp(PointerEventData eventData)
         {
-            if (_isPointerDown)
+            if (!_isPointerDown)
                 return;
             _isPointerDown = false;
             _canvasGroupTile.alpha = 0f;
@@ -47,6 +47,7 @@ namespace GamePlay.TileGeneration
         {
             if (!_isPointerDown)
                 return;
+            _isPointerDown = false;
             Messenger.Default.Publish(new OnTapTilePayload
             {
                 Tile = gameObject,
